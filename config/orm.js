@@ -27,14 +27,39 @@ const objToSql = (ob) => {
 
 
 //Methods for retrieving and storing data in db
-var orm = {
-    //Select All function
-    selectAll: function
-    //Insert One function
-    insertOne: function
-    //Update One function
-    updateOne: function
-}
+const orm = {    
+    selectAll: (tableInput, cb) => {      
+        let queryStr = `SELECT * FROM ${tableInput};`;
+
+        connection.query(queryStr, (err, res) => {        
+            if (err) throw err;  
+
+            cb(res);      
+        });    
+    },
+    insertOne: (table, cols, vals, cb) => {
+        let queryStr = `INSERT INTO ${table} (${cols.toString()}) `;
+        queryStr += `VALUES (${printQuestionMarks(vals.length)})`;
+    
+        connection.query(queryStr, vals, (err, res) => {
+          if (err) throw err;
+    
+          cb(res);
+        });
+    },
+    updateOne: (table, objColsVals, condition, cb) => {
+        let queryStr = `UPDATE ${table}`;
+        queryStr += ` SET ${objToSql(objColsVals)}`;
+        queryStr += ` WHERE ${condition}`;
+    
+        connection.query(queryStr, (err, res) => {
+          if (err) throw err;
+    
+          cb(res);
+        });
+    }
+    };
+
 
 //Export ORM object
 module.exports = orm;
