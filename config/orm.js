@@ -1,20 +1,25 @@
-//Import MYSQL connection
-var connection = require("../config/connection.js");
+// Use MySQL connection
+const connection = require('../config/connection');
 
-//Function to loop through array and turn to string
-const questionMarks = (num) => {
+// Function looping through an array, then we turn said array into a string 
+const printQuestionMarks = (num) => {
     let arr = [];
-    for (var i = 0; i < num; i++) {
-        arr.push("?");
+  
+    for (let i = 0; i < num; i++) {
+
+      arr.push('?');
     }
+  
     return arr.toString();
-};
+  };
+  
 
-//Funtion to convert strings to sql syntax
-const objToSql = (ob) => {
+  const objToSql = (ob) => {
     let arr = [];
+  
     for (const key in ob) {
       let value = ob[key];
+  
       if (Object.hasOwnProperty.call(ob, key)) {
         if (typeof value === 'string' && value.indexOf(' ') >= 0) {
           value = `'${value}'`;
@@ -23,43 +28,40 @@ const objToSql = (ob) => {
       }
     }
     return arr.toString();
-};
-
-
-//Methods for retrieving and storing data in db
-const orm = {    
-    selectAll: (tableInput, cb) => {      
-        let queryStr = `SELECT * FROM ${tableInput};`;
-
-        connection.query(queryStr, (err, res) => {        
-            if (err) throw err;  
-
-            cb(res);      
-        });    
+  };
+  
+  // Object containing SELECT, INSERT, UPDATE (further SQL syntax)
+  const orm = {
+    all: (tableInput, cb) => {
+      let queryStr = `SELECT * FROM ${tableInput};`;
+      connection.query(queryStr, (err, res) => {
+        if (err) throw err;
+  
+        cb(res);
+      });
     },
-    insertOne: (table, cols, vals, cb) => {
-        let queryStr = `INSERT INTO ${table} (${cols.toString()}) `;
-        queryStr += `VALUES (${printQuestionMarks(vals.length)})`;
-    
-        connection.query(queryStr, vals, (err, res) => {
-          if (err) throw err;
-    
-          cb(res);
-        });
+    create: (table, cols, vals, cb) => {
+      let queryStr = `INSERT INTO ${table} (${cols.toString()}) `;
+      queryStr += `VALUES (${printQuestionMarks(vals.length)})`;
+  
+      connection.query(queryStr, vals, (err, res) => {
+        if (err) throw err;
+  
+        cb(res);
+      });
     },
-    updateOne: (table, objColsVals, condition, cb) => {
-        let queryStr = `UPDATE ${table}`;
-        queryStr += ` SET ${objToSql(objColsVals)}`;
-        queryStr += ` WHERE ${condition}`;
-    
-        connection.query(queryStr, (err, res) => {
-          if (err) throw err;
-    
-          cb(res);
-        });
+    update: (table, objColsVals, condition, cb) => {
+      let queryStr = `UPDATE ${table}`;
+      queryStr += ` SET ${objToSql(objColsVals)}`;
+      queryStr += ` WHERE ${condition}`;
+  
+      connection.query(queryStr, (err, res) => {
+        if (err) throw err;
+  
+        cb(res);
+      });
     }
-    };
+  };
 
-
-//Export ORM object
+// Export orm
 module.exports = orm;

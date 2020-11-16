@@ -1,36 +1,26 @@
-// Create express connection and run node server
-var express = require("express");
-var exphbs = require("express-handlebars");
-var methodOverride = require("method-override");
+// Install Dependencies
+const express = require('express');
+const exphbs = require('express-handlebars');
 
-var PORT = process.env.PORT || 8080;
+const app = express();
 
-var app = express();
-
-// Serve static content for the app from the "public" directory in the application directory.
-// This is a level of abstraction to hide credentials from user
 app.use(express.static('public'));
 
-// Parse application body as JSON
-app.use(express.urlencoded({
-  extended: false
-}));
+// Parse the body as JSON
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-//To always display main page
-app.use(methodOverride('_method'));
-app.engine("handlebars", exphbs({
-  defaultLayout: "main"
-}));
-app.set("view engine", "handlebars");
 
-// Import routes and give the server access to them.
-var routes = require("./controllers/burgers_controller.js");
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
 
-// Use express routes defined
-app.use("/", routes);
+// Integrate routes
+const routes = require('./controllers/burgers_controller.js');
 
-// Start our server so that it can begin listening to client requests.
-app.listen(PORT, function () {
-  console.log("Server listening on: http://localhost:" + PORT);
+app.use(routes);
+
+// Allow server to grab any port, but set 7000 as standard default
+const PORT = process.env.PORT ||7000;
+app.listen(PORT, () => {
+  console.log(`Server listening on: http://localhost: ${PORT}`);
 });

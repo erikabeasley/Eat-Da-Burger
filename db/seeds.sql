@@ -1,2 +1,5 @@
-INSERT INTO burgers (burger_name, devoured) 
-VALUES ("cheeseburger", false), ("black bean burger", true), ("bacon cheese burger", false), ("spicy gaucamole burger", true);
+INSERT INTO burgers(burger_name, isDevoured) VALUES ("Double Cheese Burger", false);
+
+INSERT INTO burgers(burger_name, isDevoured) VALUES ("Spicy Guacomle Black Bean Burger", true);
+
+INSERT INTO burgers(burger_name, isDevoured) VALUES ("Bacon Egg and Cheese Burger", false);

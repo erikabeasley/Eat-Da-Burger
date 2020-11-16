@@ -1,30 +1,27 @@
-require('dotenv').config();
-// Set up MySQL connection
-var mysql = require("mysql");
+// Connect to MySQL
+const mysql = require('mysql');
+
 var connection;
 
 if (process.env.JAWSDB_URL) {
-  // connect to JawsDB (heroku)
   connection = mysql.createConnection(process.env.JAWSDB_URL);
 } else {
-  // else connect to local database
-  connection = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "medicine",
-    database: "burgers_db"
+var connection = mysql.createConnection({
+    host: 'localhost',
+    // port: 3306,
+    user: 'root',
+    password: 'medicine',
+    database: 'burger_db'
   });
 }
 
-// Make connection
-connection.connect(function (err) {
-    if (err) {
-      console.error("\nError connecting: " + err.stack + "\n");
-      return;
-    }
-    console.log("\nConnected as id " + connection.threadId + "\n");
-  });
-  
-  // Export connection for our ORM to use.
-  module.exports = connection;
+connection.connect((err) => {
+  if (err) {
+    console.log(`Error connecting: ${err.stack}`);
+    return;
+  }
+  console.log("connected as id " + connection.threadId);
+});
+
+// Export connection to ORM
+module.exports = connection;
