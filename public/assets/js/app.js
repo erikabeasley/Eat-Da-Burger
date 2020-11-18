@@ -33,7 +33,7 @@ $(document).ready(function () {
       event.preventDefault();
   
       var newBurger = {
-        name: $('#burger').val().trim()
+        burger_name: $('#burger').val().trim()
       };
   
       // POST request

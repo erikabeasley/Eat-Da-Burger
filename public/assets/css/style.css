@@ -1,0 +1,34 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 10%;
+    background-color: rgb(255, 255, 255);
+}
+h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bolder;
+    color: tomato;
+}
+
+.btn-plus {
+    background-color: orange;
+    color: white;
+    padding: 15px;
+}
+
+.burger-handler {
+    background-color: orange;
+    padding: 15px;
+    color: white;
+    border: none;
+    border-radius: 7px;
+}
+
+th {
+    color: tomato;
+}
+p {
+    color: tomato;
+}
+.form-group {
+    border-radius: 7px;
+}

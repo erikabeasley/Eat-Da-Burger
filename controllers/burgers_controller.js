@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
       let hbsObj = {
         burgers: data
       };
-      console.log(hbsObj)
+      console.log(hbsObj);
       res.render('index', hbsObj);
     });
   });
@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
       ['burger_name', 'isDevoured'],
       [req.body.burger_name, req.body.isDevoured],
       (result) => {
- 
+        
         res.json({ id: result.insertId });
       }
     );
